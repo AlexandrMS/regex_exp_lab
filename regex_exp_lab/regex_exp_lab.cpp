@@ -25,6 +25,9 @@ int main()
     // Регулярное выражение для поиска наречий
     regex adverbs(R"((?:^|[\s.,!?])[А-Яа-яЁё]{3,}(о|е)(?=[\s.,!?]|$))", regex::icase);
 
+    // Регулярное выражение для поиска глаголов
+    regex verbs(R"((?:^|[\s.,!?])[А-Яа-яЁё]{3,}(ть|ет|ешь|л|ла|ют|им|ите|ил|или|ли|ем|ется|ться)(?=[\s.,!?]|$))", regex::icase);
+
     int adj_count = distance(
         sregex_iterator(text.begin(), text.end(), adjectives),
         sregex_iterator()
@@ -35,7 +38,12 @@ int main()
         sregex_iterator()
     );
 
-    cout << "Количество прилагательных: " << adj_count << "\nКоличество наречий: " << adv_count << endl;
+    int verb_count = distance(
+        sregex_iterator(text.begin(), text.end(), verbs),
+        sregex_iterator()
+    );
+
+    cout << "Количество прилагательных: " << adj_count << "\nКоличество наречий: " << adv_count << "\nКоличество глаголов: " << verb_count << endl;
 
     return 0;
 }
