@@ -17,15 +17,25 @@ int main()
 
     string text((istreambuf_iterator<char>(file)), {});
 
+    cout << "Исходный текст из файла:\n" << text << endl;
+
     // Регулярное выражение для поиска прилагательных 
     regex adjectives(R"([А-Яа-яЁё]+(ый|ий|ая|ое|ые|ую|их))", regex::icase);
+
+    // Регулярное выражение для поиска наречий
+    regex adverbs(R"((?:^|[\s.,!?])[А-Яа-яЁё]{3,}(о|е)(?=[\s.,!?]|$))", regex::icase);
 
     int adj_count = distance(
         sregex_iterator(text.begin(), text.end(), adjectives),
         sregex_iterator()
     );
 
-    cout << "Количество прилагательных: " << adj_count << endl;
+    int adv_count = distance(
+        sregex_iterator(text.begin(), text.end(), adverbs),
+        sregex_iterator()
+    );
+
+    cout << "Количество прилагательных: " << adj_count << "\nКоличество наречий: " << adv_count << endl;
 
     return 0;
 }
